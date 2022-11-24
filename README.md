@@ -1,22 +1,22 @@
-#__Description__
+# Description
 Simple Webserver supporting HTTPS 1.1 running on port 80
 
-#__Requirements__
+# Requirements
 - java jdk 17
 - gradle
 
-#__Build__
+# Build
 - Full Build: `./gradlew build`
 - Only Jar: `./gradlew jar`
 
-#__Run__
+# Run
 - `./gradlew run`
 - `java -jar ./app/build/libs/<jarname>.jar`
 
-#__Clean__
+# Clean
 - `./gradlew clean`
 
-#__TODO__
+# TODO
 - Implement HTTPS Server
 - Command Line Options
 - JUnit Testing
