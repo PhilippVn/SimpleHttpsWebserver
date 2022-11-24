@@ -26,5 +26,16 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'simplehttpswebserver.App'
+    mainClass = 'main.Main'
+}
+
+group 'neffe.von.philipp'
+version '1.0'
+
+tasks.named('jar') {
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Main-Class' : application.mainClass)
+    }
 }
