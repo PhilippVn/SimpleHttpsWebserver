@@ -4,6 +4,7 @@ Simple Webserver supporting HTTPS 1.1 running on port 80
 # Requirements
 - java jdk 17
 - gradle
+- self signed ssl certificate stored in resources/certificate
 
 # Build
 - Full Build: `./gradlew build`
