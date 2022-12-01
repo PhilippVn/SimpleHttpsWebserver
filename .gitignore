@@ -29,3 +29,7 @@ hs_err_pid*
 
 # Ignore Gradle build output directory
 build
+
+#ignore certificate
+app/src/main/resources/certificate
+
