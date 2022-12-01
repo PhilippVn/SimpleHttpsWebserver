@@ -31,5 +31,5 @@ hs_err_pid*
 build
 
 #ignore certificate
-app/src/main/resources/certificate
+app/src/main/resources/certificate/*
 
