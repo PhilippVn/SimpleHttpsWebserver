@@ -1,8 +1,10 @@
 package https.request;
 
+import https.MIMEType.MIMEType;
 import https.method.Method;
 
 import java.io.File;
+import java.util.List;
 
 public interface RequestHeaderInterface {
     /**
@@ -10,16 +12,16 @@ public interface RequestHeaderInterface {
      * @param in : Input
      * @return RequestHeaderInterface
      */
-    RequestHeaderInterface parseRequest(String in);
+    RequestHeaderInterface parseHTTPRequest(String in);
 
     Method getMethod();
 
-    File getRequestedFile();
-
-    String getUrl();
+    File getURI();
 
     String getHttpsVersion();
 
-    String getClient();
+    boolean getKeepAlive();
+
+    List<MIMEType> getAcceptedMimeType();
 
 }

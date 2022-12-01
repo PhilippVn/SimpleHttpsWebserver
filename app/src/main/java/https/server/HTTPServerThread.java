@@ -2,22 +2,29 @@ package https.server;
 
 import util.Util;
 
-import javax.net.ssl.SSLSocket;
+
 import java.io.*;
 import java.net.Socket;
-import java.util.stream.Collectors;
 
 public class HTTPServerThread implements Runnable{
 
-    private Socket clientConnection;
+    private final Socket clientConnection;
+    private boolean debug;
 
     public HTTPServerThread(Socket clientConnection) {
         this.clientConnection = clientConnection;
+        this.debug = false;
+    }
+
+    public HTTPServerThread(Socket clientConnection,boolean debug) {
+        this.clientConnection = clientConnection;
+        this.debug = debug;
     }
 
     @Override
     public void run() {
-        //System.out.println("Client connected:" + this.clientConnection.toString());
+        if(debug)
+            System.out.println("Client connected:" + this.clientConnection.toString());
 
         try(BufferedReader in = new BufferedReader(new InputStreamReader(clientConnection.getInputStream()));
             BufferedOutputStream rawOut = new BufferedOutputStream(clientConnection.getOutputStream());
@@ -35,10 +42,6 @@ public class HTTPServerThread implements Runnable{
 
             try{
 
-                String header = getHeader(in);
-                System.out.println("=========Request header=========");
-                System.out.println(header);
-                System.out.flush();
 
                 out.print("HTTP/1.0 200 OK\r\n");
                 out.print("Content-Length: " + bytecodes.length +
@@ -47,6 +50,16 @@ public class HTTPServerThread implements Runnable{
                 out.flush();
                 rawOut.write(bytecodes,0, (int) file.length());
                 rawOut.flush();
+
+                if (debug) {
+                    String header = getHTTPHeader(in);
+                    if(!header.isEmpty()){
+                        System.out.println("=========Request header=========");
+                        System.out.println(header);
+                        System.out.flush();
+                    }
+                }
+
             } catch (IOException ignore) {}
         } catch (IOException e) {
             System.err.println(e.getLocalizedMessage());
@@ -55,12 +68,22 @@ public class HTTPServerThread implements Runnable{
 
     }
 
-    private String getHeader(BufferedReader in) throws IOException{
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while((line = in.readLine()) != null)
-            stringBuilder.append(line);
+    public boolean getDebug(){
+        return this.debug;
+    }
 
-        return stringBuilder.toString();
+    public void setDebug(boolean debug){
+        this.debug = debug;
+    }
+
+    private String getHTTPHeader(BufferedReader in){
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = in.readLine()) != null)
+                stringBuilder.append(line).append("\n");
+
+            return stringBuilder.toString();
+        }catch (IOException ignored){return "";}
     }
 }
